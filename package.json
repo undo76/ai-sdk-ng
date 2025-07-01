@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "test": "vitest"
   },
   "prettier": {
     "overrides": [
@@ -30,9 +31,11 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^1.19.0",
     "@angular/build": "^20.0.4",
     "@angular/cli": "^20.0.4",
     "@angular/compiler-cli": "^20.0.0",
+    "@types/node": "^24.0.8",
     "jsdom": "^26.1.0",
     "ng-packagr": "^20.0.0",
     "typescript": "~5.8.2",

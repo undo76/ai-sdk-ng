@@ -87,7 +87,6 @@ export class Completion {
     prompt: string,
     options?: CompletionRequestOptions,
   ) => {
-    console.log("Calling...");
     return callCompletionApi({
       api: this.api,
       prompt,
@@ -103,7 +102,6 @@ export class Completion {
         this.#completion.set(completion);
       },
       setLoading: (loading: boolean) => {
-        console.log("loading...");
         this.#loading.set(loading);
       },
       setError: (error: any) => {

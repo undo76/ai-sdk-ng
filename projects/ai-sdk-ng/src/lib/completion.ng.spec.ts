@@ -1,9 +1,24 @@
-import { createTestServer } from "@ai-sdk/provider-utils/test";
+import {
+  createTestServer,
+  TestResponseController,
+} from "@ai-sdk/provider-utils/test";
 import { Completion } from "./completion.ng";
+import { beforeAll } from "vitest";
+import { UIMessageStreamPart } from "ai";
 
-createTestServer({});
+function formatStreamPart(part: UIMessageStreamPart) {
+  return `data: ${JSON.stringify(part)}\n\n`;
+}
+
+const server = createTestServer({
+  "/api/completion": {},
+});
 
 describe("Completion", () => {
+  beforeAll(() => {
+    createTestServer({});
+  });
+
   it("starts", () => {
     expect(1).toBe(1);
   });
@@ -18,14 +33,110 @@ describe("Completion", () => {
     expect(completion.id).toBeDefined();
   });
 
-  it("sends queries", { timeout: 10_000 }, async () => {
+  it("should render a data stream", async () => {
+    server.urls["/api/completion"].response = {
+      type: "stream-chunks",
+      chunks: [
+        formatStreamPart({ type: "text-start", id: "0" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "Hello" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "," }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: " world" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "." }),
+        formatStreamPart({ type: "text-end", id: "0" }),
+      ],
+    };
     const completion = new Completion({
-      api: "http://localhost:3010/api/completion",
+      api: "/api/completion",
     });
     await completion.complete("hi");
-    console.log(completion.completion);
-    console.log("Error", completion.error);
+    expect(completion.completion).toBe("Hello, world.");
+  });
 
+  it("should render a text stream", async () => {
+    server.urls["/api/completion"].response = {
+      type: "stream-chunks",
+      chunks: ["Hello", ",", " world", "."],
+    };
+
+    const completion = new Completion({ streamProtocol: "text" });
+    await completion.complete("hi");
+    expect(completion.completion).toBe("Hello, world.");
+  });
+
+  it("should call `onFinish` callback", async () => {
+    server.urls["/api/completion"].response = {
+      type: "stream-chunks",
+      chunks: [
+        formatStreamPart({ type: "text-start", id: "0" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "Hello" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "," }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: " world" }),
+        formatStreamPart({ type: "text-delta", id: "0", delta: "." }),
+        formatStreamPart({ type: "text-end", id: "0" }),
+      ],
+    };
+
+    const onFinish = vi.fn();
+    const completion = new Completion({ onFinish });
+    await completion.complete("hi");
+    expect(onFinish).toHaveBeenCalledExactlyOnceWith("hi", "Hello, world.");
+  });
+
+  it("should show loading state", async () => {
+    const controller = new TestResponseController();
+    server.urls["/api/completion"].response = {
+      type: "controlled-stream",
+      controller,
+    };
+
+    const completion = new Completion();
+    const completionOperation = completion.complete("hi");
+    controller.write('0:"Hello"\n');
+    await vi.waitFor(() => expect(completion.loading).toBe(true));
+    controller.close();
+    await completionOperation;
+    expect(completion.loading).toBe(false);
+  });
+
+  it("should reset loading state on error", async () => {
+    server.urls["/api/completion"].response = {
+      type: "error",
+      status: 404,
+      body: "Not found",
+    };
+
+    const completion = new Completion();
+    await completion.complete("hi");
+    expect(completion.error).toBeInstanceOf(Error);
+    expect(completion.loading).toBe(false);
+  });
+
+  it("should reset error state on subsequent completion", async () => {
+    server.urls["/api/completion"].response = [
+      {
+        type: "error",
+        status: 404,
+        body: "Not found",
+      },
+      {
+        type: "stream-chunks",
+        chunks: [
+          formatStreamPart({ type: "text-start", id: "0" }),
+          formatStreamPart({ type: "text-delta", id: "0", delta: "Hello" }),
+          formatStreamPart({ type: "text-delta", id: "0", delta: "," }),
+          formatStreamPart({ type: "text-delta", id: "0", delta: " world" }),
+          formatStreamPart({ type: "text-delta", id: "0", delta: "." }),
+          formatStreamPart({ type: "text-end", id: "0" }),
+        ],
+      },
+    ];
+
+    const completion = new Completion();
+    await completion.complete("hi");
+    expect(completion.error).toBeInstanceOf(Error);
+    expect(completion.loading).toBe(false);
+    await completion.complete("hi");
+    expect(completion.error).toBe(undefined);
     expect(completion.completion).toBe("Hello, world.");
   });
 });
