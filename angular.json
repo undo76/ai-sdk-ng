@@ -3,5 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "ai-sdk-ng": {
+      "projectType": "library",
+      "root": "projects/ai-sdk-ng",
+      "sourceRoot": "projects/ai-sdk-ng/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ai-sdk-ng/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ai-sdk-ng/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ai-sdk-ng/tsconfig.spec.json",
+            "runner": "vitest",
+            "buildTarget": "::development"
+          }
+        }
+      }
+    }
   }
 }
