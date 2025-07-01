@@ -18,6 +18,7 @@
       }
     ]
   },
+  "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "@angular/common": "^20.0.0",

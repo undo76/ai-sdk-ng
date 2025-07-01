@@ -1,6 +1,7 @@
 {
   "name": "ai-sdk-ng",
   "version": "0.0.1",
+  "license": "Apache-2.0",
   "peerDependencies": {
     "@angular/common": "^20.0.0",
     "@angular/core": "^20.0.0"
