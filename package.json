@@ -20,9 +20,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@angular/common": "^20.0.0",
-    "@angular/compiler": "^20.0.0",
-    "@angular/core": "^20.0.0",
     "ai": "5.0.0-beta.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -37,5 +34,10 @@
     "ng-packagr": "^20.0.0",
     "typescript": "~5.8.2",
     "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@angular/common": "^20.0.0",
+    "@angular/compiler": "^20.0.0",
+    "@angular/core": "^20.0.0"
   }
 }
