@@ -5,6 +5,6 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    include: ["./projects/ai-sdk-ng/src/lib/**/*.spec.ts"],
+    include: ["./src/lib/**/*.spec.ts"],
   },
 });

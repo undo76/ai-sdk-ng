@@ -43,10 +43,10 @@ import { Chat, Completion, StructuredObject } from "ai-sdk-ng";
 To build the library:
 
 ```bash
-ng build ai-sdk-ng
+npm run build
 ```
 
-Build artifacts are placed in `dist/`.
+Build artifacts are placed in `dist/ai-sdk-ng/`.
 
 ---
 
