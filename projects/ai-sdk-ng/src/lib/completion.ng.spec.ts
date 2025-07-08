@@ -19,9 +19,6 @@ describe("Completion", () => {
     createTestServer({});
   });
 
-  it("starts", () => {
-    expect(1).toBe(1);
-  });
 
   it("initialises", () => {
     const completion = new Completion();
@@ -96,6 +93,36 @@ describe("Completion", () => {
     controller.close();
     await completionOperation;
     expect(completion.loading).toBe(false);
+  });
+
+  describe("stop", () => {
+    it("should abort the stream and not consume any more data", async () => {
+      const controller = new TestResponseController();
+      server.urls["/api/completion"].response = {
+        type: "controlled-stream",
+        controller,
+      };
+
+      const completion = new Completion();
+      const completionOperation = completion.complete("hi");
+      controller.write(formatStreamPart({ type: "text-delta", id: "0", delta: "Hello" }));
+
+      await vi.waitFor(() => {
+        expect(completion.loading).toBe(true);
+        expect(completion.completion).toBe("Hello");
+      });
+
+      completion.stop();
+
+      await vi.waitFor(() => expect(completion.loading).toBe(false));
+
+      await expect(controller.write('0:", world"\n')).rejects.toThrow();
+      await expect(controller.close()).rejects.toThrow();
+      await completionOperation;
+
+      expect(completion.loading).toBe(false);
+      expect(completion.completion).toBe("Hello");
+    });
   });
 
   it("should reset loading state on error", async () => {
