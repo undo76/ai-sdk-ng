@@ -87,9 +87,8 @@ export class StructuredObject<
   RESULT = InferSchema<SCHEMA>,
   INPUT = unknown,
 > {
-  readonly options: StructuredObjectOptions<SCHEMA, RESULT> =
-    {} as StructuredObjectOptions<SCHEMA, RESULT>;
-  readonly #id = this.options.id ?? generateId();
+  readonly options: StructuredObjectOptions<SCHEMA, RESULT>;
+  readonly id: string;
   #abortController: AbortController | undefined;
 
   // Reactive state
@@ -118,6 +117,7 @@ export class StructuredObject<
 
   constructor(options: StructuredObjectOptions<SCHEMA, RESULT>) {
     this.options = options;
+    this.id = options.id ?? generateId();
     this.#object.set(options.initialValue);
   }
 
