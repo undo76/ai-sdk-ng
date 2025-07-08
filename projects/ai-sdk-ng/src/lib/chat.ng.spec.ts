@@ -9,7 +9,7 @@ import {
   TextStreamChatTransport,
   type UIMessageStreamPart,
 } from "ai";
-import { Chat } from "./chat.ng.js";
+import { Chat } from "./chat.ng";
 
 function formatStreamPart(part: UIMessageStreamPart) {
   return `data: ${JSON.stringify(part)}\n\n`;
