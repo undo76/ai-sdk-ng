@@ -31,7 +31,7 @@ export type StructuredObjectOptions<
   schema: SCHEMA;
 
   /**
-   * An unique identifier. If not provided, a random one will be
+   * A unique identifier. If not provided, a random one will be
    * generated. When provided, the `useObject` hook with the same `id` will
    * have shared states across components.
    */
