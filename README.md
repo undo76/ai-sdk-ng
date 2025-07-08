@@ -1,59 +1,74 @@
-# AiSdkNg
+# ai-sdk-ng
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.4.
+> [!WARNING]
+> This is an experimental version not ready for production.
 
-## Development server
+**ai-sdk-ng** is an Angular library that provides seamless integration with [Vercel AI SDK v5 (beta)](https://vercel.com/blog/vercel-ai-sdk-v5) for building AI-powered apps in Angular. It offers chat, text completion, and structured output capabilities with reactive state management and type-safe schema validation.
 
-To start a local development server, run:
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.x.
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Features
 
-## Code scaffolding
+- **Chat API**: Easily build interactive chat UIs powered by Vercel AI SDK v5.
+- **Text Completion**: Generate text using LLMs (Large Language Models).
+- **Structured Output**: Stream and validate structured JSON responses from AI APIs with [Zod](https://zod.dev/) schema support.
+- **Reactive State**: Built-in loading, error, and result state for Angular templates using signals.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## Getting Started
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Installation
 
 ```bash
-ng build
+npm install ai-sdk-ng
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Usage
 
-## Running unit tests
+Import the classes you need from the library’s public API:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+```typescript
+import { Chat, Completion, StructuredObject } from "ai-sdk-ng";
+```
+
+---
+
+## Development
+
+### Building
+
+To build the library:
 
 ```bash
-ng test
+ng build ai-sdk-ng
 ```
 
-## Running end-to-end tests
+Build artifacts are placed in `dist/`.
 
-For end-to-end (e2e) testing, run:
+---
+
+## Testing
+
+### Unit Tests
 
 ```bash
-ng e2e
+npm run test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Vercel AI SDK v5 (beta)](https://vercel.com/blog/vercel-ai-sdk-v5)
+- [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
+- [Zod Schema Validation](https://zod.dev)
+- [Angular Documentation](https://angular.dev/)
+
+---
+
+## License
+
+Apache License, Version 2.0

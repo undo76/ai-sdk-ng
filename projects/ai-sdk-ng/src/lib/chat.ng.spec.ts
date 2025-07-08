@@ -10,8 +10,6 @@ import {
   type UIMessageStreamPart,
 } from "ai";
 import { Chat } from "./chat.ng.js";
-import { flush, flushMicrotasks } from "@angular/core/testing";
-import { effect } from "@angular/core";
 
 function formatStreamPart(part: UIMessageStreamPart) {
   return `data: ${JSON.stringify(part)}\n\n`;
