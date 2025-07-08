@@ -200,11 +200,17 @@ export class StructuredObject<
                 schema: asSchema(this.options.schema),
               });
 
-              this.options.onFinish(
-                validationResult.success
-                  ? { object: validationResult.value, error: undefined }
-                  : { object: undefined, error: validationResult.error },
-              );
+              if (validationResult.success) {
+                this.options.onFinish({
+                  object: validationResult.value,
+                  error: undefined,
+                });
+              } else {
+                this.options.onFinish({
+                  object: undefined,
+                  error: (validationResult as { error: Error }).error,
+                });
+              }
             }
           },
         }),

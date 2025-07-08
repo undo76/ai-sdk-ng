@@ -23,13 +23,5 @@
     "typeCheckHostBindings": true,
     "strictTemplates": true
   },
-  "files": [],
-  "references": [
-    {
-      "path": "./projects/ai-sdk-ng/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/ai-sdk-ng/tsconfig.spec.json"
-    }
-  ]
+  "files": []
 }

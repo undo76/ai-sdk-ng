@@ -2,10 +2,8 @@
   "name": "ai-sdk-ng",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng-packagr -p ng-package.json",
+    "watch": "ng-packagr -p ng-package.json -w",
     "test": "vitest"
   },
   "prettier": {
