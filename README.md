@@ -5,7 +5,7 @@
 
 **ai-sdk-ng** is an Angular library that provides seamless integration with [Vercel AI SDK v5 (beta)](https://vercel.com/blog/vercel-ai-sdk-v5) for building AI-powered apps in Angular. It offers chat, text completion, and structured output capabilities with reactive state management and type-safe schema validation.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.x. The library supports Angular 16 or higher.
+This project was generated using the [Angular CLI](https://github.com/angular/angular-cli) and supports Angular **16 or higher**.
 
 ---
 
